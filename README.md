@@ -1,1 +1,1 @@
-# MySQL-training---LeetCode
+# Ubuntu MySQL LeetCode
