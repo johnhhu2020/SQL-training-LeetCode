@@ -123,7 +123,7 @@ WHERE c.first_date = b.event_date;
 SELECT * FROM game_play;
 
 SELECT a.player_id,a.device_id,a.event_date,SUM(b.games_played) AS played_so_far
-FROM game_play a LEFT JOIN game_play b ON a.player_id = b.player_id AND b.event_date <= a.event_date
+FROM game_play_3 a LEFT JOIN game_play_3 b ON a.player_id = b.player_id AND b.event_date <= a.event_date
 GROUP BY a.player_id, a.device_id, a.event_date;
 
 SELECT a.player_id,a.device_id,a.event_date,SUM(b.games_played) FROM game_play a, game_play b
@@ -133,6 +133,12 @@ GROUP BY a.player_id,a.device_id,a.event_date ORDER BY a.player_id,a.device_id,a
 SELECT a.player_id,a.device_id,a.event_date,SUM(b.games_played) AS played_so_far FROM game_play a
     LEFT JOIN game_play b ON a.player_id = b.player_id AND a.event_date >= b.event_date
 GROUP BY a.player_id,a.device_id, a.event_date;
+
+SELECT * FROM game_play_3;
+
+SELECT a.player_id,a.device_id,a.event_date,SUM(b.games_played) FROM game_play_3 a
+    LEFT JOIN game_play_3 b ON a.player_id=b.player_id AND
+ a.event_date>=b.event_date GROUP BY a.player_id,a.device_id,a.event_date;
 
 
 ------------------------534 Game Play Analysis III---------------------------*************************
@@ -150,6 +156,12 @@ WHERE a.player_id = b.player_id AND DATEDIFF(b.event_date,a.event_date) = 1;
 SELECT ((SELECT COUNT(DISTINCT b.player_id) FROM game_play_2 b, game_play_2 a
 WHERE a.player_id = b.player_id AND DATEDIFF(b.event_date,a.event_date) = 1)
             /(SELECT COUNT(DISTINCT a.player_id) FROM game_play_2 a)) AS fraction;
+
+SELECT * FROM game_play;
+--
+SELECT ((SELECT COUNT(DISTINCT (b.player_id)) FROM game_play_2 b, game_play_2 a
+    WHERE b.player_id=a.player_id AND DATEDIFF(b.event_date,a.event_date)=1) /
+    (SELECT COUNT(DISTINCT (a.player_id)) FROM game_play_2 a )) AS fraction;
 
 
 ------------------------550 Game Play Analysis IV----------------------------****************
